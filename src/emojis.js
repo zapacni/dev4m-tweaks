@@ -1,4 +1,4 @@
-export const emojis = {
+export default {
 	"AAA": "https://cdn.discordapp.com/emojis/626147013070684161.gif?v=1",
 	"thonk_smile": "https://cdn.discordapp.com/emojis/451214432131874837.png?v=1",
 	"flushing": "https://cdn.discordapp.com/emojis/808498786279882762.gif?v=1",
