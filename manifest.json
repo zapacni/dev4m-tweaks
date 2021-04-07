@@ -6,7 +6,7 @@
 	"content_scripts": [
 		{
 			"matches": ["*://devforum.roblox.com/*"],
-			"js": ["src/index.js"]
+			"js": ["dev4m-tweaks.js"]
 		}
 	],
 	"permissions": ["*://devforum.roblox.com/*"]
