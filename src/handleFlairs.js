@@ -70,6 +70,7 @@ async function getUserInfo(userId, postId) {
 	const user = JSON.parse(await blob.text());
 
 	users[`tl${user.trust_level}`].push(userId);
+	info.trustLevel = trustLevels[user.trust_level];
 	info.userInfo = user;
 
 	return info;
@@ -80,10 +81,15 @@ async function handlePost(post) {
 
 	post.className += ` ${CLASS_NAME}`;
 
+	const a = post.getAttribute('data-user-id')
+	const b = post.getAttribute('data-post-id')
+
+	if (b === null) return;
+
 	const { trustLevel, userInfo } = await getUserInfo(
-		post.getAttribute('data-user-id'),
-		post.getAttribute('data-post-id')
-	);
+		a,
+		b
+	).catch(console.log);
 
 	let isUserSuspended = false;
 
@@ -141,6 +147,6 @@ function handleUserFlairs(post) {
 
 export default function handleFlairs(post) {
 	handleOP(post);
-	handlePost(post).catch(console.error);
+	handlePost(post);
 	handleUserFlairs(post);
 }
