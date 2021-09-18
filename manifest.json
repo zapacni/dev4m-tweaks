@@ -9,5 +9,10 @@
 			"js": ["dev4m-tweaks.js"]
 		}
 	],
-	"permissions": ["*://devforum.roblox.com/*"]
+	"permissions": ["*://devforum.roblox.com/*"],
+
+	"icons": {
+		"48": "icon48.png",
+		"128": "icon128.png"
+	  }
 }
