@@ -6,6 +6,13 @@ const USER_FLAIR_CLASS_NAME = '-!-has-user-flairs';
 const userFlairs = {
 	1311: 'bobox',
 	112950: 'godefficients',
+	34253: 'extensiondev',
+};
+
+const topBadges = {
+	102: 'top',
+	103: 'sage',
+	104: 'editor',
 };
 
 const postFlairs = { };
@@ -23,6 +30,9 @@ const trustLevels = [ 'visitor', 'member', 'regular', 'editor', 'leader' ];
 
 let suspendedUsers = [ ];
 let notSuspendedUsers = [ ];
+
+let topUsers = [ ];
+let notTopUsers = [ ];
 
 const FETCH_CONFIG = {
 	method: 'GET',
@@ -49,6 +59,41 @@ async function isSuspended(userId, post) {
 	}
 }
 
+async function hasTopBadge(userId, post) {
+	if (topUsers.indexOf(userId) !== -1) return true; //(topUsers.indexOf(userId)[0])
+	if (notTopUsers.indexOf(userId) !== -1) return false;
+
+	const res = await fetch(`https://devforum.roblox.com/u/${post.username}.json`, FETCH_CONFIG)
+	if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+
+	const blob = await res.blob();
+	const user = JSON.parse(await blob.text());
+	const badges = [ ];
+
+	console.log(user.user.username)
+
+	Object.keys(user.badges).forEach(function (key) {
+		if (topBadges[user.badges[key].id]) {
+			if (!badges[user.badges[key].id]) {
+				badges.push(user.badges[key].id);
+			};	
+		};
+	 });
+
+	if (badges.length !== 0) { 
+		var largest = Math.max.apply(Math, badges);
+
+		if (largest) {
+			console.log(largest);
+			topUsers.push([ userId, [topBadges[largest]] ]);
+		return(topBadges[largest])
+		}
+	} else {
+		notTopUsers.push(userId);
+		return false
+	}
+}
+
 async function getUserInfo(userId, postId) {
 	const info = { };
 
@@ -68,6 +113,7 @@ async function getUserInfo(userId, postId) {
 
 	const blob = await res.blob();
 	const user = JSON.parse(await blob.text());
+
 
 	users[`tl${user.trust_level}`].push(userId);
 	info.trustLevel = trustLevels[user.trust_level];
@@ -92,13 +138,20 @@ async function handlePost(post) {
 	).catch(console.log);
 
 	let isUserSuspended = false;
+	let TopBadge;
 
 	if (userInfo) isUserSuspended = await isSuspended(
 		post.getAttribute('data-user-id'),
 		userInfo
 	).catch(console.log);
 
+	if (userInfo) TopBadge = await hasTopBadge(
+		post.getAttribute('data-user-id'),
+		userInfo
+	).catch(console.log);
+
 	if (trustLevel) addFlair(post, trustLevel);
+	if (TopBadge) addFlair(post, TopBadge);
 	if (isUserSuspended) addFlair(post, 'suspended');
 }
 
