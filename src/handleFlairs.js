@@ -31,7 +31,7 @@ const trustLevels = [ 'visitor', 'member', 'regular', 'editor', 'leader' ];
 let suspendedUsers = [ ];
 let notSuspendedUsers = [ ];
 
-let topUsers = [ ];
+let topUsers = {};
 let notTopUsers = [ ];
 
 const FETCH_CONFIG = {
@@ -60,7 +60,7 @@ async function isSuspended(userId, post) {
 }
 
 async function hasTopBadge(userId, post) {
-	if (topUsers.indexOf(userId) !== -1) return true; //(topUsers.indexOf(userId)[0])
+	if (topUsers[userId]) return topUsers[userId];
 	if (notTopUsers.indexOf(userId) !== -1) return false;
 
 	const res = await fetch(`https://devforum.roblox.com/u/${post.username}.json`, FETCH_CONFIG)
@@ -85,7 +85,7 @@ async function hasTopBadge(userId, post) {
 
 		if (largest) {
 			console.log(largest);
-			topUsers.push([ userId, [topBadges[largest]] ]);
+			topUsers[userId] = [topBadges[largest]];
 		return(topBadges[largest])
 		}
 	} else {
