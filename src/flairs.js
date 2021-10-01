@@ -53,7 +53,7 @@ export default {
 <use xlink:href="#users"></use></svg></span>`
 .replace('\n', ' '),
 
-	editor: `<span title=${title5}>
+	editor2: `<span title=${title5}>
 <svg class=${cls5} xmlns=${site} style=${style3}>
 <use xlink:href="#user-check"></use></svg></span>`
 .replace('\n', ' '),

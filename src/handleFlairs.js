@@ -12,7 +12,7 @@ const userFlairs = {
 const topBadges = {
 	102: 'top',
 	103: 'sage',
-	104: 'editor',
+	104: 'editor2',
 };
 
 const postFlairs = { };
