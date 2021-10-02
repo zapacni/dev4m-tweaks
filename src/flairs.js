@@ -10,7 +10,7 @@ const title = '"Suspended"'
 const style = '"color:#e45735 !important"'
 
 const cls2 = '"fa d-icon d-icon-code svg-icon svg-string"';
-const title2 = '"Extension Developer"'
+const title2 = '"dev4m-tweaks Developer"'
 const style2 = '"color:#009FFF !important"'
 
 const cls3 = '"fa d-icon d-icon-arrow-up svg-icon svg-string"';
@@ -22,6 +22,9 @@ const title4 = '"Sage"'
 
 const cls5 = '"fa d-icon d-icon-user-check svg-icon svg-string"';
 const title5 = '"Editor"'
+
+const cls6 = '"fa d-icon d-icon-desktop svg-icon svg-string"';
+const title6 = '"dev4m-tweaks Contributor"'
 
 export default {
 	op: createFlair('OP', 'green'),
@@ -41,6 +44,11 @@ export default {
 	extensiondev: `<span title=${title2}>
 <svg class=${cls2} xmlns=${site} style=${style2}>
 <use xlink:href="#code"></use></svg></span>`
+.replace('\n', ' '),
+
+	extensioncont: `<span title=${title6}>
+<svg class=${cls6} xmlns=${site} style=${style2}>
+<use xlink:href="#desktop"></use></svg></span>`
 .replace('\n', ' '),
 
 	top: `<span title=${title3}>

@@ -7,6 +7,7 @@ const userFlairs = {
 	1311: 'bobox',
 	112950: 'godefficients',
 	34253: 'extensiondev',
+	399427: 'extensioncont',
 };
 
 const topBadges = {
@@ -70,7 +71,6 @@ async function hasTopBadge(userId, post) {
 	const user = JSON.parse(await blob.text());
 	const badges = [ ];
 
-	console.log(user.user.username)
 
 	Object.keys(user.badges).forEach(function (key) {
 		if (topBadges[user.badges[key].id]) {
@@ -84,7 +84,6 @@ async function hasTopBadge(userId, post) {
 		var largest = Math.max.apply(Math, badges);
 
 		if (largest) {
-			console.log(largest);
 			topUsers[userId] = [topBadges[largest]];
 		return(topBadges[largest])
 		}
@@ -114,7 +113,7 @@ async function getUserInfo(userId, postId) {
 	const blob = await res.blob();
 	const user = JSON.parse(await blob.text());
 
-
+console.log(user)
 	users[`tl${user.trust_level}`].push(userId);
 	info.trustLevel = trustLevels[user.trust_level];
 	info.userInfo = user;
