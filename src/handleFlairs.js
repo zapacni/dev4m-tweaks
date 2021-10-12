@@ -39,7 +39,8 @@ const FETCH_CONFIG = {
 	method: 'GET',
 };
 
-const CLASS_NAME = '-!--user-flaired';
+const CLASS_NAME = '-!--user-flaired ';
+const CLASS_NAME2 = '-!--user-has-dm-bttn';
 
 async function isSuspended(userId, post) {
 	if (suspendedUsers.indexOf(userId) !== -1) return true;
@@ -123,11 +124,13 @@ console.log(user)
 
 async function handlePost(post) {
 	if (post.classList.contains(CLASS_NAME)) return;
+	if (post.classList.contains(CLASS_NAME2)) return;
 
 	post.className += ` ${CLASS_NAME}`;
+	post.className += ` ${CLASS_NAME2}`;
 
-	const a = post.getAttribute('data-user-id')
-	const b = post.getAttribute('data-post-id')
+	const a = post.getAttribute('data-user-id');
+	const b = post.getAttribute('data-post-id');
 
 	if (b === null) return;
 
@@ -149,6 +152,7 @@ async function handlePost(post) {
 		userInfo
 	).catch(console.log);
 
+	addDirectMessage(post, userInfo.username)
 	if (trustLevel) addFlair(post, trustLevel);
 	if (TopBadge) addFlair(post, TopBadge);
 	if (isUserSuspended) addFlair(post, 'suspended');
@@ -160,6 +164,26 @@ function getChild(element, className) {
 	}
 	return null;
 }
+
+function addDirectMessage(post, username) {
+	let body;
+
+	for (let row of post.getElementsByClassName('row')) {
+		body = getChild(row, "topic-body");
+		if (body) break;
+	}
+
+	const regular = getChild(body, 'regular');
+	const menu = getChild(regular, 'post-menu-area');
+	const controls = getChild(menu, 'post-controls');
+	const actions = getChild(controls, 'actions');
+
+	const button = `<button class="widget-button btn-flat envelope no-text btn-icon" aria-label="message post author" 
+	title="message post author"><a href="http://devforum.roblox.com/new-message?username=${username}"><svg class="fa d-icon d-icon-envelope svg-icon svg-node 
+	d-hover" xmlns="http://www.w3.org/2000/svg"><use xlink:href="#envelope"></use></svg></a></button>`.replace('\n', ' ');
+
+	actions.innerHTML += button;
+};
 
 function addFlair(post, flair) {
 	const actualFlair = flairs[flair];
