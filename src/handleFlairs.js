@@ -16,6 +16,11 @@ const topBadges = {
 	104: 'editor2',
 };
 
+const highlights = {
+	'staff': ' moderator',
+	'local': ' regular',
+};
+
 const postFlairs = { };
 const topicFlairs = { };
 
@@ -59,7 +64,7 @@ async function isSuspended(userId, post) {
 		notSuspendedUsers.push(userId);
 		return false;
 	}
-}
+};
 
 async function hasTopBadge(userId, post) {
 	if (topUsers[userId]) return topUsers[userId];
@@ -71,7 +76,6 @@ async function hasTopBadge(userId, post) {
 	const blob = await res.blob();
 	const user = JSON.parse(await blob.text());
 	const badges = [ ];
-
 
 	Object.keys(user.badges).forEach(function (key) {
 		if (topBadges[user.badges[key].id]) {
@@ -92,7 +96,7 @@ async function hasTopBadge(userId, post) {
 		notTopUsers.push(userId);
 		return false
 	}
-}
+};
 
 async function getUserInfo(userId, postId) {
 	const info = { };
@@ -113,14 +117,14 @@ async function getUserInfo(userId, postId) {
 
 	const blob = await res.blob();
 	const user = JSON.parse(await blob.text());
+	console.log(user);
 
-console.log(user)
 	users[`tl${user.trust_level}`].push(userId);
 	info.trustLevel = trustLevels[user.trust_level];
 	info.userInfo = user;
 
 	return info;
-}
+};
 
 async function handlePost(post) {
 	if (post.classList.contains(CLASS_NAME)) return;
@@ -152,18 +156,27 @@ async function handlePost(post) {
 		userInfo
 	).catch(console.log);
 
-	addDirectMessage(post, userInfo.username)
 	if (trustLevel) addFlair(post, trustLevel);
 	if (TopBadge) addFlair(post, TopBadge);
 	if (isUserSuspended) addFlair(post, 'suspended');
-}
+
+	if (!userInfo.yours) {
+		addDirectMessage(post, userInfo.username)
+	} else {
+		addHighlight(post, "local")
+	};
+
+	if (post.parentElement.classList.contains("group-Roblox_Staff")) {
+		addHighlight(post, "staff")
+	};
+};
 
 function getChild(element, className) {
 	for (const child of element.childNodes) {
 		if (child.classList.contains(className)) return child;
 	}
 	return null;
-}
+};
 
 function addDirectMessage(post, username) {
 	let body;
@@ -185,6 +198,27 @@ function addDirectMessage(post, username) {
 	actions.innerHTML += button;
 };
 
+function addHighlight(post, type) {
+	let body;
+
+	for (let row of post.getElementsByClassName('row')) {
+		body = getChild(row, "topic-body");
+		if (body) break;
+	}
+
+	const regular = getChild(body, 'regular');
+	const cooked = getChild(regular, 'cooked');
+
+	if (type == "staff") {
+		if (post.parentElement.classList.contains("moderator")) return;
+		post.parentElement.className += " moderator";
+	};
+
+	if (type == "local") {
+		cooked.style.background = 'var(--tertiary-very-low)'
+	};
+};
+
 function addFlair(post, flair) {
 	const actualFlair = flairs[flair];
 	let body;
@@ -197,7 +231,7 @@ function addFlair(post, flair) {
 	const meta = getChild(body, 'topic-meta-data');
 	const names = getChild(meta, 'names');
 	names.innerHTML += actualFlair;
-}
+};
 
 function handleOP(post) {
 	if (!post.parentElement.classList.contains('topic-owner')) return;
@@ -205,7 +239,7 @@ function handleOP(post) {
 
 	addFlair(post, 'op');
 	post.className += ` ${OP_CLASS_NAME}`;
-}
+};
 
 function handleUserFlairs(post) {
 	if (post.classList.contains(USER_FLAIR_CLASS_NAME)) return;
@@ -219,10 +253,10 @@ function handleUserFlairs(post) {
 	if (topicFlairs[topicId]) addFlair(post, topicFlairs[topicId]);
 
 	post.className += ` ${USER_FLAIR_CLASS_NAME}`;
-}
+};
 
 export default function handleFlairs(post) {
 	handleOP(post);
 	handlePost(post);
 	handleUserFlairs(post);
-}
+};

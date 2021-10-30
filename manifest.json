@@ -1,8 +1,9 @@
 {
 	"name": "dev4m-tweaks",
 	"manifest_version": 2,
-	"version": "1.0",
-	"description": "An extension that improves the devforum experience.\nUna extensión que mejora la experiencia en el devforum.",
+	"version": "1.0.1",
+	"description": "__MSG_extDesc__",
+	"default_locale": "en",
 	"content_scripts": [
 		{
 			"matches": ["*://devforum.roblox.com/*"],

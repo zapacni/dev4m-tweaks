@@ -1,7 +1,7 @@
 {
 	"name": "dev4m-tweaks",
 	"version": "1.0.0",
-	"description": "adds emogees to the dev4m, will have more functionality along the road",
+	"description": "Adds Emojis and Flairs to the Dev4m, will have more functionality along the road.",
 	"private": true,
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
