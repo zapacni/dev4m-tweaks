@@ -117,7 +117,7 @@ async function getUserInfo(userId, postId) {
 
 	const blob = await res.blob();
 	const user = JSON.parse(await blob.text());
-	
+
 	users[`tl${user.trust_level}`].push(userId);
 	info.trustLevel = trustLevels[user.trust_level];
 	info.userInfo = user;
@@ -190,14 +190,15 @@ function addDirectMessage(post, username) {
 	const controls = getChild(menu, 'post-controls');
 	const actions = getChild(controls, 'actions');
 
-	const button = `<button class="widget-button btn-flat envelope no-text btn-icon" title="message post author">
-	<svg class="fa d-icon d-icon-envelope svg-icon svg-node d-hover" xmlns="http://www.w3.org/2000/svg">
-	<use xlink:href="#envelope"></use></svg></button>`.replace('\n', ' ');
+	var button = document.createElement("button");
+	button.class = "widget-button btn-flat envelope no-text btn-icon";
+	button.title = "message post author"
+	button.innerHTML += `<svg class="fa d-icon d-icon-envelope svg-icon svg-node d-hover" xmlns="http://www.w3.org/2000/svg">
+	<use xlink:href="#envelope"></use></svg>`.replace('\n', ' ');
 
-	actions.innerHTML += button;
+	actions.appendChild(button)
 
-	const newButton = getChild(actions, 'envelope');
-	addMsgEvent(newButton, username)
+	addMsgEvent(button, username)
 };
 
 function addMsgEvent(b, u) {
