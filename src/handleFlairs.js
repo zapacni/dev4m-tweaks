@@ -191,7 +191,7 @@ function addDirectMessage(post, username) {
 	const actions = getChild(controls, 'actions');
 
 	var button = document.createElement("button");
-	button.class = "widget-button btn-flat envelope no-text btn-icon";
+	button.classList.add("widget-button","btn-flat","envelope","no-text","btn-icon");
 	button.title = "message post author"
 	button.innerHTML += `<svg class="fa d-icon d-icon-envelope svg-icon svg-node d-hover" xmlns="http://www.w3.org/2000/svg">
 	<use xlink:href="#envelope"></use></svg>`.replace('\n', ' ');
