@@ -7,7 +7,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "webpack",
 		"prerelease-firefox": "npm run build && web-ext build",
-		"wp-build": "webpack --config webpack.config.js"
+		"wp": "webpack --config webpack.config.js"
 	},
 	"repository": {
 		"type": "git",

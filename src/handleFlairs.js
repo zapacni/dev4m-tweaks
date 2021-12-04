@@ -117,8 +117,7 @@ async function getUserInfo(userId, postId) {
 
 	const blob = await res.blob();
 	const user = JSON.parse(await blob.text());
-	console.log(user);
-
+	
 	users[`tl${user.trust_level}`].push(userId);
 	info.trustLevel = trustLevels[user.trust_level];
 	info.userInfo = user;
@@ -191,8 +190,8 @@ function addDirectMessage(post, username) {
 	const controls = getChild(menu, 'post-controls');
 	const actions = getChild(controls, 'actions');
 
-	const button = `<button class="widget-button btn-flat envelope no-text btn-icon" aria-label="message post author" 
-	title="message post author"><svg class="fa d-icon d-icon-envelope svg-icon svg-node d-hover" xmlns="http://www.w3.org/2000/svg">
+	const button = `<button class="widget-button btn-flat envelope no-text btn-icon" title="message post author">
+	<svg class="fa d-icon d-icon-envelope svg-icon svg-node d-hover" xmlns="http://www.w3.org/2000/svg">
 	<use xlink:href="#envelope"></use></svg></button>`.replace('\n', ' ');
 
 	actions.innerHTML += button;
