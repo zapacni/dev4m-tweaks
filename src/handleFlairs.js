@@ -192,10 +192,19 @@ function addDirectMessage(post, username) {
 	const actions = getChild(controls, 'actions');
 
 	const button = `<button class="widget-button btn-flat envelope no-text btn-icon" aria-label="message post author" 
-	title="message post author"><a href="http://devforum.roblox.com/new-message?username=${username}"><svg class="fa d-icon d-icon-envelope svg-icon svg-node 
-	d-hover" xmlns="http://www.w3.org/2000/svg"><use xlink:href="#envelope"></use></svg></a></button>`.replace('\n', ' ');
+	title="message post author"><svg class="fa d-icon d-icon-envelope svg-icon svg-node d-hover" xmlns="http://www.w3.org/2000/svg">
+	<use xlink:href="#envelope"></use></svg></button>`.replace('\n', ' ');
 
 	actions.innerHTML += button;
+
+	const newButton = getChild(actions, 'envelope');
+	addMsgEvent(newButton, username)
+};
+
+function addMsgEvent(b, u) {
+	b.addEventListener('click', function() {
+		window.location.href = `http://devforum.roblox.com/new-message?username=${u}`;
+	}, false)
 };
 
 function addHighlight(post, type) {

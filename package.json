@@ -1,18 +1,25 @@
 {
 	"name": "dev4m-tweaks",
 	"version": "1.0.0",
-	"description": "Adds Emojis and Flairs to the Dev4m, will have more functionality along the road.",
+	"description": "An extension that improves the Devforum experience.",
 	"private": true,
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "webpack",
-		"prerelease-firefox": "npm run build && web-ext build"
+		"prerelease-firefox": "npm run build && web-ext build",
+		"wp-build": "webpack --config webpack.config.js"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/zapacni/dev4m-tweaks.git"
 	},
-	"author": "incapaz",
+	"author": "incapaz (https://github.com/zapacni)",
+	"contributors": [
+		{
+			"name": "Vexot",
+			"url": "https://github.com/Vexot"
+		}
+	],
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/zapacni/dev4m-tweaks/issues"
